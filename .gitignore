@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# DB
+.chroma_db/
+
+# Data
+# data/ 
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# Data - Ignore extracted sample data, but not the directory itself or the zip file
+data/local_docs/*
+!data/local_docs/.gitkeep 

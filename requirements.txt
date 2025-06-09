@@ -1,0 +1,6 @@
+beautifulsoup4
+ollama
+chromadb
+gradio
+sentence-transformers
+python-dotenv
