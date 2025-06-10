@@ -134,6 +134,19 @@ The application UI is organized into three tabs:
 
 ---
 
+## ❓ Sample Queries
+
+Once you have ingested the sample data, here are a few questions you can ask the assistant to see it in action:
+
+- `How do I connect WhatsApp to Twilio?`
+- `Can I schedule messages for future delivery?`
+- `How do I check pricing or SMS capability by country?`
+- `How do I use Twilio with a trial account versus a full-paid account?`
+- `How do I respond to an incoming SMS with TwiML?`
+- `How does Twilio prevent fraud or SMS pumping?`
+
+---
+
 ## 🧩 Key Technologies
 
 -   **Ollama**: For running local embedding and generation language models.

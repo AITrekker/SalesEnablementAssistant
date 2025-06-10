@@ -11,6 +11,8 @@ The script performs the following actions:
 import sys
 import os
 import gradio as gr
+import re
+os.environ["OLLAMA_USE_GPU"] = "1"
 
 # --- Virtual Environment Check ---
 # Ensures the app is running in the virtual environment created by setup.py
@@ -32,6 +34,27 @@ from backend.ingest_docs import create_ingest_ui_components, handle_folder
 from backend.rag_pipeline import get_rag_response_stream
 from backend.vector_db import get_db_inspection_report, clear_database_collection
 
+def get_sample_queries():
+    """
+    Reads the README.md file and extracts a list of sample queries.
+    """
+    try:
+        with open("README.md", "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        # Find the "Sample Queries" section and extract the list items
+        queries_section = re.search(r"## ❓ Sample Queries\n(.*?)(?=\n##)", content, re.DOTALL | re.IGNORECASE)
+        if not queries_section:
+            return []
+        
+        # Extract queries from markdown list items
+        queries = re.findall(r"-\s*`([^`]+)`", queries_section.group(1))
+        return queries
+    except FileNotFoundError:
+        return [] # Return empty list if README is not found
+    except Exception as e:
+        print(f"Error reading sample queries from README: {e}")
+        return []
 
 def build_chat_interface():
     """Defines and returns the components for the chat interface."""
@@ -52,6 +75,14 @@ def build_chat_interface():
                     scale=8
                 )
                 submit_button = gr.Button("Submit", variant="primary", scale=1)
+            
+            with gr.Column():
+                gr.Markdown("### Sample Queries")
+                sample_queries = get_sample_queries()
+                for query in sample_queries:
+                    btn = gr.Button(query)
+                    btn.click(lambda q=query: q, None, msg_textbox)
+
         with gr.Column(scale=1):
             sources_display = gr.Markdown(
                 "### Retrieved Sources\n\n*No sources to display yet.*",
